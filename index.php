@@ -26,12 +26,18 @@ require './simplephpcalendar.php';
       .spc__table td.spc__table__selected a { color:#fff; }
 
       /* second calendar collection */
-      .spc__table.year-cal { box-shadow: none; }
-      .spc__table.year-cal td.spc__table__today { background: #777; color:#fff; border: none;}
-      .spc__table.year-cal td.spc__table__day { width:24px; height:24px; background: #dde; text-align: center; font-size: 0.7em; padding: 4px;}
-      .spc__table.year-cal td.spc__table__today { background: #777; color:#fff; }
-      .spc__table.year-cal td.spc__table__selected { background:#000; font-weight: 700; }
-      .spc__table.year-cal td.spc__table__selected a { color:#fff; }
+      div.year-container {}
+      div.year-container::after { clear:both; display:block; content:""; }
+      div.year-container div.cal { margin: 0.5px; padding:0; list-style: none; float:left;}
+      .spc__year, .spc__year th, .spc__year td { box-sizing: border-box; }
+      .spc__year { padding: 8px; box-shadow: none; min-height: 240px; background: #111; color:#555;}
+      .spc__year a { color: #666; text-decoration: none;}
+      .spc__year th.spc__year__day { font-size:0.8em; font-weight: normal;}
+      .spc__year td.spc__year__day { width:30px; height:20px; background: #333; text-align: center; font-size: 0.7em; padding: 4px;}
+      .spc__year td.spc__year__today { background: #555;}
+      .spc__year td.spc__year__today a { color:#ccc; font-weight: 700;}
+      .spc__year td.spc__year__selected { border: 2px solid #800; background:#a00;  }
+      .spc__year td.spc__year__selected a { color: #c77; font-weight: 700; }
     </style>
   </head>
   <body>
@@ -50,7 +56,7 @@ require './simplephpcalendar.php';
     ?>
 
     <hr>
-
+    <div class="year-container">
     <?php
     // example draw multiple calendars with containing class
     for ($m=1; $m<=12; $m++) {
@@ -60,8 +66,9 @@ require './simplephpcalendar.php';
           "monthname_format"  => '%B', // default
           "daylabel_format"   => '%a', // default
           "date_param"        => 'date',
-          "class_names"       => 'year-cal',
-          "style_today"       => FALSE,
+          "enclosing"         => ['<div class="cal">', '</div>'],
+          "class_name"       => 'spc__year',
+          "style_today"       => TRUE,
         ],
         "2018-".str_pad($m, 2, "0", STR_PAD_LEFT)
       );
@@ -70,6 +77,7 @@ require './simplephpcalendar.php';
       $cal->draw();
     }
     ?>
+  </div>
 
   </body>
 </html>
