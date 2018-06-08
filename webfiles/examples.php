@@ -1,14 +1,19 @@
 <?php
-// for dev purpose
+// show errors on screen
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Require the class
-require './simplephpcalendar.php';
+require './class.simplephpcalendar.php';
 ?>
 
 <html>
   <head>
+    <?php
+    /**
+     * We're using Google Fonts to demonstrate the stylability of the calendar
+     */
+    ?>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Cabin:700" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <style>
@@ -21,21 +26,34 @@ require './simplephpcalendar.php';
 
     <?php
     /**
-     * EXAMPLE 1
+     * ============================================================
+     *
+     *   EXAMPLE 1
+     *
+     * ============================================================
      */
     ?>
     <style>
+      /* contain sizes */
       .spc__table, .spc__table th, .spc__table td { box-sizing: border-box; }
+      /* outer container should inline */
       .spc__table__container { display: inline-block; position: relative;}
+      /* controls are positioned absolute */
       .spc__table__container a.spc__table__ctrl { position: absolute; text-decoration: none; color: #444;}
       .spc__table__container a.spc__table__ctrl-l { left:12px; top:12px; }
       .spc__table__container a.spc__table__ctrl-r { right:12px; top:12px; }
+      /* calendar has shadow */
       .spc__table { padding: 8px; background: #fff; box-shadow: 0px 0px 32px 0px rgba(0,0,0,0.2); }
+      /* default day link color */
       .spc__table a { color: #444; text-decoration: none;}
+      /* label look and feel */
       .spc__table th.spc__table__day { color:#999; font-size: 0.8em; font-weight: normal;}
+      /* day look and feel */
       .spc__table td.spc__table__day { width:32px; height:32px; background: #dde; text-align: center; font-size: 0.8em; padding: 4px;}
+      /* today's date look and feel */
       .spc__table td.spc__table__today { background: #88e; }
       .spc__table td.spc__table__today a { color:#ddf; }
+      /* selected date (via url parameter) look and feel */
       .spc__table td.spc__table__selected { background:#00a; font-weight: 700; }
       .spc__table td.spc__table__selected a { color:#fff; }
     </style>
@@ -62,11 +80,16 @@ require './simplephpcalendar.php';
 
     <?php
     /**
-    * EXAMPLE 2
-    */
+     * ============================================================
+     *
+     *   EXAMPLE 2
+     *
+     * ============================================================
+     */
     ?>
     <div class="example2-holder">
       <style>
+        /* See first example for explanation of these rules */
         div.example2-holder {}
         div.example2-holder::after { clear:both; display:block; content:""; }
         div.example2-holder div.example2__container { margin: 0.5px; padding:0; list-style: none; float:left;}
@@ -112,10 +135,15 @@ require './simplephpcalendar.php';
 
     <?php
     /**
-     * EXAMPLE 3
+     * ============================================================
+     *
+     *   EXAMPLE 3
+     *
+     * ============================================================
      */
     ?>
     <style>
+      /* See first example for explanation of these rules */
       .example3__container { font-family: 'Cabin', sans-serif; font-weight: 700; }
       .example3, .example3 th, .example3 td, .example3 div { box-sizing: border-box; }
       .example3 { padding: 8px; width:600px; min-height: 340px; border: 4px solid #000; border-radius: 6px; background: #ff0; color:#000;}
