@@ -1,5 +1,5 @@
 <?php
-namespace JF;
+namespace JF\UI;
 
 /**
  * @TODO
@@ -19,8 +19,11 @@ class SimplePHPCalendar {
     "daylabel_format"   => '%a',
     "date_param"        => 'd',
     "class_name"        => 'spc__table',
-    "enclosing"         => null,
     "style_today"       => TRUE,
+    "style_selected"    => TRUE,
+    "show_navigation"   => TRUE,
+    "nav_left"          => '<',
+    "nav_right"         => '>',
   ];
 
   /**
@@ -43,6 +46,10 @@ class SimplePHPCalendar {
     $this->year = date('Y', $time);
     $this->month = date('m', $time);
     $this->day = date('d', $time);
+    $this->prev_month = $this->month>1?$this->month-1:12;
+    $this->prev_year = $this->month>1?$this->year:$this->year-1;
+    $this->next_month = $this->month<12?$this->month+1:1;
+    $this->next_year = $this->month<12?$this->year:$this->year+1;
     $this->running_day = date('w', mktime(0,0,0,$this->month,1,$this->year));
   	$this->days_in_month = date('t', mktime(0,0,0,$this->month,1,$this->year));
   	$this->month_pad = str_pad($this->month, 2, "0", STR_PAD_LEFT);
@@ -68,63 +75,67 @@ class SimplePHPCalendar {
   		$this->day_end =  mktime(23,59,59,$this->month,$d,$this->year);
   	}
 
-    if (!is_null($this->options["enclosing"])) { echo $this->options["enclosing"][0]; }
   	?>
-  	<table class="<?php echo $this->options["class_name"]; ?>">
-  		<thead>
-  			<tr>
-  				<th class="<?php echo $this->options["class_name"] ?>__title" colspan="7">
-						<?php echo $this->month_name; ?>
-  					<span class="year"><?php echo $this->year; ?></span>
-  				</th>
-  			</tr>
-  			<tr>
-  				<th class="<?php echo $this->options["class_name"] ?>__day"><?php echo implode("</th><th class=\"{$this->options["class_name"]}__day\">", $this->labels); ?></th>
-  			</tr>
-  		</thead>
-  		<tbody>
-  		<tr>
-  			<?php
-  			for($x = 0; $x < $this->running_day; $x++):
-  				echo "<td class=\"{$this->options["class_name"]}__empty\">&nbsp;</td>";
-  			 	$this->weekdays++;
-  			endfor;
-  			for($list_day = 1; $list_day <= $this->days_in_month; $list_day++):
-  				$list_day_pad = str_pad($list_day, 2, "0", STR_PAD_LEFT);
-  				$isToday = $this->options["style_today"] ? $this->today === date("Y-m-d", mktime(0,0,0,$this->month,$list_day,$this->year)) : FALSE;
-  				$isSelected = $this->selected_date === date("Y-m-d", mktime(0,0,0,$this->month,$list_day,$this->year));
-          $classes = ["{$this->options["class_name"]}__day"];
-          !$isToday || array_push($classes, "{$this->options["class_name"]}__today");
-          !$isSelected || array_push($classes, "{$this->options["class_name"]}__selected");
-          ?>
-  				<td class="<?php echo implode(" ", $classes); ?>">
-						<?php if($this->options["link"]): ?><a href="<?php echo "{$this->options["link"]}?{$this->options["date_param"]}={$this->year}-{$this->month_pad}-{$list_day_pad}"?>"><?php endif; ?>
-              <?php echo $list_day?>
-            <?php if($this->options["link"]): ?></a><?php endif; ?>
-  				</td>
-  				<?php
-  				if($this->running_day == 6):
-  					echo "</tr>";
-  					if(($this->day_counter+1) != $this->days_in_month):
-  						echo "<tr>";
-  					endif;
-  					$this->running_day = -1;
-  					$this->weekdays = 0;
-  				endif;
-  				$this->weekdays++;
-  				$this->running_day++;
-  				$this->day_counter++;
-  			endfor;
-  			if($this->weekdays > 1 && $this->weekdays < 8):
-  				for($x = 1; $x <= (8 - $this->weekdays); $x++):
-  					echo "<td class=\"{$this->options["class_name"]}__empty\"> </td>";
-  				endfor;
-  			endif;
-  			?>
-  		</tr>
-  		</tbody>
-  	</table>
+    <div class="<?php echo $this->options["class_name"] ?>__container">
+    	<table class="<?php echo $this->options["class_name"]; ?>">
+    		<thead>
+    			<tr>
+    				<th class="<?php echo $this->options["class_name"] ?>__title" colspan="7">
+  						<?php echo $this->month_name; ?>
+    					<span class="year"><?php echo $this->year; ?></span>
+    				</th>
+    			</tr>
+    			<tr>
+    				<th class="<?php echo $this->options["class_name"] ?>__day"><?php echo implode("</th><th class=\"{$this->options["class_name"]}__day\">", $this->labels); ?></th>
+    			</tr>
+    		</thead>
+    		<tbody>
+    		<tr>
+    			<?php
+    			for($x = 0; $x < $this->running_day; $x++):
+    				echo "<td class=\"{$this->options["class_name"]}__empty\">&nbsp;</td>";
+    			 	$this->weekdays++;
+    			endfor;
+    			for($list_day = 1; $list_day <= $this->days_in_month; $list_day++):
+    				$list_day_pad = str_pad($list_day, 2, "0", STR_PAD_LEFT);
+    				$isToday = $this->options["style_today"] ? $this->today === date("Y-m-d", mktime(0,0,0,$this->month,$list_day,$this->year)) : FALSE;
+    				$isSelected = $this->options["style_selected"] ? $this->selected_date === date("Y-m-d", mktime(0,0,0,$this->month,$list_day,$this->year)) : FALSE;
+            $classes = ["{$this->options["class_name"]}__day"];
+            !$isToday || array_push($classes, "{$this->options["class_name"]}__today");
+            !$isSelected || array_push($classes, "{$this->options["class_name"]}__selected");
+            ?>
+    				<td class="<?php echo implode(" ", $classes); ?>">
+  						<?php if($this->options["link"]): ?><a href="<?php echo "{$this->options["link"]}?{$this->options["date_param"]}={$this->year}-{$this->month_pad}-{$list_day_pad}"?>"><?php endif; ?>
+                <?php echo $list_day?>
+              <?php if($this->options["link"]): ?></a><?php endif; ?>
+    				</td>
+    				<?php
+    				if($this->running_day == 6):
+    					echo "</tr>";
+    					if(($this->day_counter+1) != $this->days_in_month):
+    						echo "<tr>";
+    					endif;
+    					$this->running_day = -1;
+    					$this->weekdays = 0;
+    				endif;
+    				$this->weekdays++;
+    				$this->running_day++;
+    				$this->day_counter++;
+    			endfor;
+    			if($this->weekdays > 1 && $this->weekdays < 8):
+    				for($x = 1; $x <= (8 - $this->weekdays); $x++):
+    					echo "<td class=\"{$this->options["class_name"]}__empty\"> </td>";
+    				endfor;
+    			endif;
+    			?>
+    		</tr>
+    		</tbody>
+    	</table>
+      <?php if($this->options["show_navigation"]):?>
+        <a href="<?php echo "{$this->options["link"]}?{$this->options["date_param"]}={$this->prev_year}-{$this->prev_month}"?>" class="<?php echo $this->options["class_name"]; ?>__ctrl <?php echo $this->options["class_name"]; ?>__ctrl-l"><?php echo $this->options["nav_left"]?></a>
+        <a href="<?php echo "{$this->options["link"]}?{$this->options["date_param"]}={$this->next_year}-{$this->next_month}"?>" class="<?php echo $this->options["class_name"]; ?>__ctrl <?php echo $this->options["class_name"]; ?>__ctrl-r"><?php echo $this->options["nav_right"]?></a>
+      <?php endif;?>
+    </div>
     <?php
-    if (!is_null($this->options["enclosing"])) { echo $this->options["enclosing"][1]; }
   }
 }
