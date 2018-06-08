@@ -2,10 +2,10 @@
 namespace JF\UI;
 
 /**
- * @TODO
+ * SimplePHPCalendar
+ * (C) 2018 J. Faber
  *
- * monthname date format
- *
+ * Version: 1.0
  */
 class SimplePHPCalendar {
 
@@ -105,9 +105,9 @@ class SimplePHPCalendar {
             !$isSelected || array_push($classes, "{$this->options["class_name"]}__selected");
             ?>
     				<td class="<?php echo implode(" ", $classes); ?>">
-  						<?php if($this->options["link"]): ?><a href="<?php echo "{$this->options["link"]}?{$this->options["date_param"]}={$this->year}-{$this->month_pad}-{$list_day_pad}"?>"><?php endif; ?>
+  						<?php if($this->options["link"]!==FALSE): ?><a href="<?php echo "{$this->options["link"]}?{$this->options["date_param"]}={$this->year}-{$this->month_pad}-{$list_day_pad}"?>"><?php endif; ?>
                 <?php echo $list_day?>
-              <?php if($this->options["link"]): ?></a><?php endif; ?>
+              <?php if($this->options["link"]!==FALSE): ?></a><?php endif; ?>
     				</td>
     				<?php
     				if($this->running_day == 6):
