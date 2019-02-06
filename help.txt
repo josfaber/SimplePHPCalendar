@@ -1,7 +1,7 @@
 
 Hi there.
 
-Thanks for buying one of my scripts! I hope you will be able to implement it in your applications with ease.
+Thanks for using one of my scripts! I hope you will be able to implement it in your applications with ease.
 To get you started I've included three example uses which cover most of the use cases. You'll find them in example.php.
 
 ########################################
@@ -85,12 +85,6 @@ A rendered calendar item looks like this:
 ########################################
    TROUBLESHOOTING
 ########################################
-If you encounter any problems during the use of this script feel free to contact me at jfaber@protonmail.com.
-Although this is not my day job, I will answer you a.s.a.p.
-
 If there are problems with the namespacing, you could always copy/paste the class code block from class.simplephpcalendar.php to your own script.
 
 If you encounter problems with the locale/translation and/or timezones, check the languages installed on your webserver and check this document for clues: http://php.net/manual/en/function.strftime.php.
-
-Happy coding!
-Jos
