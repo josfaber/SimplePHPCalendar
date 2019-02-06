@@ -75,7 +75,7 @@ A rendered calendar item looks like this:
 ```
 
 ### Example styles ###
-[[https://github.com/josfaber/SimplePHPCalendar/master/examples.jpg|alt=examples]]
+<img src="https://raw.githubusercontent.com/josfaber/SimplePHPCalendar/master/examples.jpg?sanitize=true&raw=true" />
 
 ### TROUBLESHOOTING ###
 If there are problems with the namespacing, you could always copy/paste the class code block from class.simplephpcalendar.php to your own script.
